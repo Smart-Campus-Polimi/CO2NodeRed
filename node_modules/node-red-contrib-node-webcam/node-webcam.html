@@ -1,0 +1,137 @@
+<!--
+  Copyright 2016 IBM Corp.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  Authors:
+     - M. Akaishi
+-->
+
+
+<!-- Webcam -->
+<script type="text/x-red" data-template-name="webcam">
+    <div class="form-row">
+        <label for=""><i class="fa fa-tag"></i> File Mode</label>
+        <select id="node-input-filemode">
+            <option value="0"> Buffer</option>
+            <option value="1"> File Mode</option>
+            <option value="2"> Generate</option>
+        </select>
+    </div>
+    
+    <div class="form-row node-input-filename">
+        <label for="node-input-filename"><i class="fa fa-tag"></i> File Name</label>
+        <input type="text" id="node-input-filename" placeholder="Filename with extension">
+    </div>
+    <div class="form-row node-input-filedefpath">
+        <label for="node-input-filedefpath"><i class="fa fa-folder"></i> File Default Path</label>
+        <select id="node-input-filedefpath">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
+    <div class="form-row node-input-filepath">
+        <label for="node-input-filepath"><i class="fa fa-folder"></i> File Path</label>
+        <input type="text" id="node-input-filepath" placeholder="full filepath">
+    </div>
+    <div class="form-row node-input-fileformat">
+        <label for="node-input-fileformat"><i class="fa fa-file-image-o"></i> File Format</label>
+        <select id="node-input-fileformat">
+            <option value="jpeg">JPEG</option>
+            <option value="png">PNG</option>
+        </select>
+    </div>
+    <div class="form-row node-input-resolution">
+        <label for="node-input-resolution"><i class="fa fa-tag"></i> Image Resolution</label>
+        <select id="node-input-resolution">
+            <option value="1">320x240</option>
+            <option value="2">640x480</option>
+            <option value="3">800x600</option>
+            <option value="4">1024x768</option>
+            <option value="5">1920x1080</option>
+        </select>
+    </div>
+    <div class="form-row node-input-name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Web Camera">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="webcam">
+    <p>If the USB Camera Node for the Raspberry Pi Camera is triggered - it will take a photo with the given resolution and format. </p>
+    <p>The Filemode (as "2" for gernerate Filename - "1" for set filename or "0" for buffer mode) or filled in <b>msg.filemode</b> indicates if the picture is taken and put into a file or into <b>msg.payload</b> as an raw image. </p>
+    <p>You could override with <b>msg.filename</b> the filename, with <b>msg.filepath</b> the filepath and <b>msg.fileformat</b> with the fileformat.</p>
+    <p> </p>
+    <p>The node returns in the filemode="1" or "2" <b>msg.payload</b> with the full qualified filepath and filename to the photo stored in a file with extension. </p>
+    <p>Otherwise the <b>msg.payload</b> will contain the photo as an Buffer object. </p>
+    <p>As default directory you should have a <b>/home/pi/Pictures</b> filedirectory to use <b>msg.filedefpath=0</b> </p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('webcam',{
+        category: 'Raspberry_Pi',
+        color: '#A6BBCF',
+        defaults: {
+            filemode: {value:"1", required:true},
+            filename: {value:"image01.jpg", required:false},
+            filedefpath: {value:"1", required:true},
+            filepath: {value:"", required:false},
+            fileformat: {value:"jpeg", required:true},
+            resolution: {value:"1", required:true},
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "photo.png",
+        oneditprepare: function() {
+            $("#node-input-filemode").change(function() {
+                var mode = $("#node-input-filemode").val();
+                if (mode === "0") {
+                    console.log("Buffer Mode");
+                    $("#node-input-filename").parent().hide();
+                    $("#node-input-filedefpath").parent().hide();
+                    $("#node-input-filepath").parent().hide();
+                    $("#node-input-fileformat").parent().hide();                    
+                } else if (mode === "2") {
+                    console.log("Generate Mode");
+                    $("#node-input-filename").parent().hide();
+                    $("#node-input-filedefpath").val("1");
+                    $("#node-input-filedefpath").parent().show();
+                    $("#node-input-filepath").parent().hide();
+                    $("#node-input-fileformat").parent().hide();                    
+                } else if (mode === "1") {
+                    console.log("File Mode");
+                    $("#node-input-filename").parent().show();
+                    $("#node-input-filedefpath").val("1");
+                    $("#node-input-filedefpath").parent().show();
+                    $("#node-input-filepath").parent().show();
+                    $("#node-input-fileformat").parent().show();
+                }
+            });
+            $("#node-input-filedefpath").change(function() {
+                var choose = $("#node-input-filedefpath").val();
+                console.log(choose);
+                if (choose == "0") {
+                    console.log("FileDefPath - no");
+                    $("#node-input-filepath").show();
+                } else {
+                    console.log("FileDefPath - yes");
+                    $("#node-input-filepath").hide();
+                }
+            });
+        },
+        label: function() {
+            return this.name || "webcam";
+        }
+    });
+</script>
+<!-- End of Webcam -->

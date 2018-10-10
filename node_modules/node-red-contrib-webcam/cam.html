@@ -1,0 +1,73 @@
+<!--script type="text/javascript">
+    RED.nodes.registerType('motion-picture', {
+        category: 'function',
+        inputs: 1,
+        outputs: 1,
+        color: "burlywood",
+        icon: "file.png",
+        paletteLabel: "motion picture",
+        defaults: {
+            name: {value: ""},
+            topic: {value: ""}
+        },
+        label: function () {
+            return this.name || "Motion picture";
+        }
+    });
+</script-->
+
+<!--script type="text/x-red" data-template-name="motion-picture">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="icon-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+</script-->
+
+<!--script type="text/x-red" data-help-name="motion-picture">
+    <p>Get Webcam picture</p>
+</script-->
+
+<script type="text/javascript">
+    RED.nodes.registerType('motion-event', {
+        category: 'input',
+        inputs: 0,
+        outputs: 1,
+        color: "burlywood",
+        icon: "file.png",
+        paletteLabel: "motion event",
+        defaults: {
+            name: {value: ""},
+            topic: {value: ""},
+            cam: {
+                value: "",
+                type: "motion-config"
+            },
+        },
+        label: function () {
+            return this.name || "Motion event";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="motion-event">
+    <div class="form-row">
+        <label for="node-input-cam"><i class="fa fa-globe"></i> Camera</label>
+        <input type="text" id="node-input-cam" placeholder="Camera">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="icon-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="motion-event">
+    <p>Capture Webcam using motion application</p>
+</script>

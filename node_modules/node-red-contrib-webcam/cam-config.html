@@ -1,0 +1,34 @@
+<script type="text/javascript">
+    RED.nodes.registerType('motion-config',{
+        category: 'config',
+        defaults: {
+          name: {value:''},
+          host: {value:'http://localhost:8080', required:true},
+          number: {value:0, required:true,validate: RED.validators.number()},
+          callback: {value:"http://localhost:1880/webcam/trigger", required:true}
+        },
+        paletteLabel: "WEBCAM Config",
+        label: function() {
+          return this.name || this.host+'/'+this.number;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="motion-config">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-bookmark"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="fa fa-arrows"></i> Motion config host</label>
+        <input type="text" id="node-config-input-host" placeholder="http://localhost:8080 or http://user:pass@localhost:8080">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-number"><i class="fa fa-arrows"></i>Motion camera number</label>
+        <input type="text" id="node-config-input-number" placeholder="Camera number">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-callback"><i class="fa fa-arrows"></i> NodeRED callback</label>
+        <input type="text" id="node-config-input-callback">
+    </div>
+</script>

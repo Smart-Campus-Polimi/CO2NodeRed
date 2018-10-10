@@ -1,0 +1,38 @@
+{
+  "rules": {
+    "quotes": [
+      2,
+      "single"
+    ],
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "no-console": 0
+  },
+  "plugins": [],
+  "env": {
+    "es6": false,
+    "browser": false,
+    "amd": true,
+    "node": true,
+    "mocha": false
+  },
+  "ecmaFeatures": {
+    "modules": true,
+    "jsx": false,
+    "globalReturn": true
+  },
+  "extends": "eslint:recommended"
+}
